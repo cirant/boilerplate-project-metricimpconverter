@@ -9,6 +9,8 @@ var apiRoutes         = require('./routes/api.js');
 var fccTestingRoutes  = require('./routes/fcctesting.js');
 var runner            = require('./test-runner');
 
+require('dotenv').config();
+
 var app = express();
 
 app.use('/public', express.static(process.cwd() + '/public'));
@@ -27,9 +29,9 @@ app.route('/')
 //For FCC testing purposes
 fccTestingRoutes(app);
 
-//Routing for API 
-apiRoutes(app);  
-    
+//Routing for API
+apiRoutes(app);
+
 //404 Not Found Middleware
 app.use(function(req, res, next) {
   res.status(404)
@@ -38,17 +40,17 @@ app.use(function(req, res, next) {
 });
 
 //Start our server and tests!
-app.listen(process.env.PORT || 3000, function () {
-  console.log("Listening on port " + process.env.PORT);
-  if(process.env.NODE_ENV==='test') {
+app.listen(process.env.PORT || 4000, function() {
+  console.log('Listening on port ' + process.env.PORT);
+  if (process.env.NODE_ENV === 'test') {
     console.log('Running Tests...');
     setTimeout(function () {
       try {
         runner.run();
-      } catch(e) {
+      } catch (e) {
         var error = e;
-          console.log('Tests are not valid:');
-          console.log(error);
+        console.log('Tests are not valid:');
+        console.log(error);
       }
     }, 1500);
   }
